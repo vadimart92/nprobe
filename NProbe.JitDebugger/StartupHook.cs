@@ -1,8 +1,11 @@
 ﻿// ReSharper disable once CheckNamespace
+
+using NProbe.JitDebugger;
+
 public class StartupHook
 {
-	//https://github.com/dotnet/runtime/blob/main/docs/design/features/host-startup-hook.md
 	public static void Initialize() {
-		
+		var debugger = new JitDebugger();
+		debugger.Init();
 	}
 }
