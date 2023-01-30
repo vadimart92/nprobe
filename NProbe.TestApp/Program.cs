@@ -2,12 +2,12 @@
 
 using MyNamespace;
 
-new MyClass().SomeMethod();
+new MyClass().SomeMethodWithCaughtError();
 Console.WriteLine("Hello, World!");
 
 public class MyClass
 {
-	public void SomeMethod() {
+	public void SomeMethodWithCaughtError() {
 		try {
 			AnotherMethod();
 		} catch (Exception e) {

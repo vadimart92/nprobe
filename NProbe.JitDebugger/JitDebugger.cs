@@ -6,9 +6,14 @@ using System.Text.RegularExpressions;
 
 namespace NProbe.JitDebugger;
 
+public delegate void OnBreakpointHit();
+
 public class JitDebugger : IDisposable
 {
-	public JitDebugger() {
+	private readonly OnBreakpointHit _breakpointHit;
+
+	public JitDebugger(OnBreakpointHit? breakpointHit = null) {
+		_breakpointHit = breakpointHit ?? HitBreakpoint;
 		_handler = (_, args) =>  OnException(args.Exception);
 	}
 
@@ -65,6 +70,10 @@ public class JitDebugger : IDisposable
 
 	void OnException(Exception e) {
 		if (!Filters.Any(filter => filter.IsMatch(e))) return;
+		_breakpointHit();
+	}
+
+	private static void HitBreakpoint() {
 		Console.WriteLine(
 			"Exception breakpoint hit. Will attach now system JIT debugger to process " +
 			$"{Process.GetCurrentProcess().Id}");
